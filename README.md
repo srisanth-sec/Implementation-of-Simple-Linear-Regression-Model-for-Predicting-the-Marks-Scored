@@ -8,22 +8,46 @@ To write a program to predict the marks scored by a student using the simple lin
 2. Anaconda – Python 3.7 Installation / Jupyter notebook
 
 ## Algorithm
-1. 
-2. 
-3. 
-4. 
+1.  Get the independent variable X and dependent variable Y.
+2.  Calculate the mean of the X -values and the mean of the Y -values.
+3.  Find the slope m of the line of best fit using the formula. 
+4.  Obtain the straight line equation Y=mX+b and plot the scatterplot.
+
 
 ## Program:
 ```
 /*
 Program to implement the simple linear regression model for predicting the marks scored.
-Developed by: 
-RegisterNumber:  
+Developed by: Srisanth R
+RegisterNumber:  2122252401566
 */
+import numpy as np
+import matplotlib.pyplot as plt
+from sklearn.linear_model import LinearRegression
+X=np.array([1,2,3,4,5]).reshape(-1,1)
+Y=np.array([77,83,87,92,99])
+model=LinearRegression()
+model.fit(X,Y)
+m=model.coef_[0]
+b=model.intercept_
+print("slope(m):",m)
+print("intercept(b):",b)
+X_input=float(input("Enter hours studied"))
+predicted_marks=model.predict([[X_input]])
+print("Predicted Marks:",predicted_marks[0])
+Y_pred=model.predict(X)
+plt.scatter(X,Y,label="Actual Data")
+plt.plot(X, Y_pred, label="Regression Line")
+plt.xlabel("Hours Studied:")
+plt.ylabel("Marks Scored")
+plt.title("Simple Linear Regression (Using sklearn)")
+plt.legend()
+plt.show()
 ```
 
 ## Output:
-![simple linear regression model for predicting the marks scored](sam.png)
+<img width="695" height="428" alt="Screenshot 2026-04-21 092838" src="https://github.com/user-attachments/assets/791ffcbf-b132-453b-90b6-72603794967d" />
+
 
 
 ## Result:
