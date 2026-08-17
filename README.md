@@ -21,32 +21,81 @@ Program to implement the simple linear regression model for predicting the marks
 Developed by: Srisanth R
 RegisterNumber:  2122252401566
 */
+# Step 1: Import Libraries
 import numpy as np
+import pandas as pd
 import matplotlib.pyplot as plt
+from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
-X=np.array([1,2,3,4,5]).reshape(-1,1)
-Y=np.array([77,83,87,92,99])
-model=LinearRegression()
-model.fit(X,Y)
-m=model.coef_[0]
-b=model.intercept_
-print("slope(m):",m)
-print("intercept(b):",b)
-X_input=float(input("Enter hours studied"))
-predicted_marks=model.predict([[X_input]])
-print("Predicted Marks:",predicted_marks[0])
-Y_pred=model.predict(X)
-plt.scatter(X,Y,label="Actual Data")
-plt.plot(X, Y_pred, label="Regression Line")
-plt.xlabel("Hours Studied:")
+from sklearn.metrics import mean_squared_error, r2_score
+
+
+# Step 2: Create Dataset (Hours studied vs Marks scored)
+data = {
+    "Hours_Studied": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+    "Marks_Scored": [35, 40, 50, 55, 60, 65, 70, 80, 85, 95]
+}
+
+df = pd.DataFrame(data)
+
+# Display dataset
+print("Dataset:\n", df.head())
+df
+
+
+# Step 3: Split into Features and Target
+X = df[["Hours_Studied"]]
+y = df["Marks_Scored"]
+
+
+# Step 4: Train-test split
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, random_state=42
+)
+
+
+# Step 5: Train Linear Regression Model
+model = LinearRegression()
+model.fit(X_train, y_train)
+
+
+# Step 6: Predictions
+y_pred = model.predict(X_test)
+
+
+# Step 7: Model Evaluation
+print("\nModel Parameters:")
+print("Intercept (b0):", model.intercept_)
+print("Slope (b1):", model.coef_[0])
+
+print("\nEvaluation Metrics:")
+print("Mean Squared Error:", mean_squared_error(y_test, y_pred))
+print("R² Score:", r2_score(y_test, y_pred))
+
+
+# Step 8: Visualization
+plt.figure(figsize=(8, 6))
+plt.scatter(X, y, color='blue', label="Actual Data")
+plt.plot(X, model.predict(X), color='red', linewidth=2, label="Regression Line")
+
+plt.xlabel("Hours Studied")
 plt.ylabel("Marks Scored")
-plt.title("Simple Linear Regression (Using sklearn)")
+plt.title("Simple Linear Regression: Predicting Marks")
 plt.legend()
+plt.grid(True)
 plt.show()
+
+
+# Step 9: Predict Marks for custom input
+hours = 7.5
+predicted_marks = model.predict([[hours]])
+
+print(f"\nPredicted marks for {hours} hours of study = {predicted_marks[0]:.2f}")
 ```
 
 ## Output:
-<img width="695" height="428" alt="Screenshot 2026-04-21 092838" src="https://github.com/user-attachments/assets/791ffcbf-b132-453b-90b6-72603794967d" />
+
+<img width="596" height="673" alt="Screenshot 2026-08-17 112636" src="https://github.com/user-attachments/assets/50dbb9f7-5980-4e40-aea5-9581289f3674" />
 
 
 
